@@ -1,0 +1,333 @@
+- alias: Power state on HA start-up
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+  - service: mqtt.publish
+    data:
+      topic: cmnd/sonoffs/SetOption19
+      payload: '1'
+  - service: mqtt.publish
+    data:
+      topic: cmnd/sonoffs/state
+      payload: ''
+  id: 559ec3c7234341d6b8ef4a4e13638da5
+- alias: Garage State Notification
+  trigger:
+    platform: state
+    entity_id: cover.big_gd, cover.small_gd
+  action:
+  - service: script.audio_notify
+    data_template:
+      tts_msg: 'The current state of the {{ trigger.to_state.attributes.friendly_name
+        }} is: {{ trigger.to_state.state }}'
+      mplayer: family_room_2
+  id: 6310daf6cb5d43769eef6cdb60decc64
+- id: '1530804968789'
+  alias: Kim Leave Work
+  trigger:
+  - entity_id: device_tracker.kimiphone
+    from: Kim Work
+    platform: state
+    to: away
+  condition: []
+  action:
+  - data:
+      message: ' Kim Left Work'
+    service: persistent_notification.create
+  - data:
+      message: Hello,  Kim left work!
+    service: notify.notify
+  - data:
+      data:
+        url: https://google.com
+      message: Kim left work
+      title: Location Change
+    service: notify.ios___iphone_randy_
+  - data:
+      entity_id: media_player.mpd
+      message: Hello Kim left work!
+    service: tts.google_say
+- id: '1530844707823'
+  alias: FR Motion
+  trigger:
+  - entity_id: binary_sensor.garage_motion
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - data:
+      entity_id: switch.chair_2
+    service: switch.turn_on
+  - delay: '"00:15:00"'
+  - data:
+      entity_id: switch.chair_2
+    service: switch.turn_off
+- id: '1531494095111'
+  alias: Garage Small Open BMW Switch
+  trigger:
+  - entity_id: sensor.bmw_switch
+    from: '0'
+    platform: state
+    to: '1'
+  condition: []
+  action:
+  - data:
+      data:
+        url: https://hoome.rlust.net
+      message: The small garage door is open
+      title: Garage door small
+    service: notify.ios___iphone_randy_
+  - data:
+      entity_id: media_player.mpd
+      message: Hello The small garage door is triggered
+    service: tts.google_say
+  - data:
+      payload: 'ON'
+      topic: cmnd/small/POWER
+    service: mqtt.publish
+- id: '1531744650764'
+  alias: Porsche Voltabe Low
+  trigger:
+  - above: '11'
+    below: '12'
+    entity_id: sensor.porsche_easy_batt_volt
+    platform: numeric_state
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.mpd
+      message: Hello, The Porsche battery voltage is low!
+    service: tts.google_say
+  - data:
+      entity_id: media_player.family_room_2
+      message: Hello, this is Alexa, The Porsche battery is low!
+    service: media_player.alexa_tts
+  - data:
+      data:
+        url: https://google.com
+      message: The Porsche battery is low
+      title: Porsche Battery
+    service: notify.ios___iphone_randy_
+- id: '1531797608400'
+  alias: Alex FR Speak side garage is open
+  trigger:
+  - entity_id: binary_sensor.side_garage_
+    from: '0'
+    platform: state
+    to: '1'
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.family_room_2
+      message: Hello, this is Alexa, The side garage door is open!
+    service: media_player.alexa_tts
+  - data:
+      message: Hello, this is Alexa, The side garage door is open!
+    service: notify.ios___iphone_randy_
+  - data:
+      message: Hello, this is Alexa, The side garage door is open!
+    service: notify.notify
+- id: '1533393828499'
+  alias: Alexa FR Say weather Updated
+  trigger:
+  - entity_id: light.316993
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      entity_id: media_player.osmc
+      volume_level: 1
+    service: media_player.volume_set
+  - data:
+      entity_id: media_player.family_room_2
+      message: Hello The weather summary for today is forthcoming
+    service: media_player.alexa_tts
+  - data:
+      entity_id: media_player.family_room_2
+      message: Hello Randy!, The weather summary for today is, The outside temperature
+        is {{states.sensor.dark_sky_apparent_temperature.state }} degrees
+    service: media_player.alexa_tts
+- id: '1533690009484'
+  alias: Water is Hot notify Alexa
+  trigger:
+  - above: '89'
+    below: '99'
+    entity_id: sensor.hot_water_pipe
+    platform: numeric_state
+  condition: []
+  action:
+  - data: {}
+    service: script.audio_notify_water
+  - data:
+      message: Hello Randy!, The water has become hot,,! The temperature is {{states
+        ('sensor.hot_water_pipe') }} degrees
+    service: notify.notify
+- id: '1534208301698'
+  alias: Temperature report by Alexa
+  trigger:
+  - at: 09:00:11
+    minutes: /15
+    platform: time
+    seconds: 30
+  condition: []
+  action:
+  - service: script.audio_notify
+- id: '1534219339871'
+  alias: Weather report by Alexa
+  trigger:
+  - at: 07:28:00
+    platform: time
+  condition: []
+  action:
+  - service: script.audio_notify_weeater
+- id: '1534422169064'
+  alias: Alexa Test
+  trigger:
+  - entity_id: alarm_control_panel.home
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - service: script.alexa_notify_test
+- id: '1535765078293'
+  alias: Lights FR at Sundown
+  trigger:
+  - event: sunset
+    platform: sun
+  condition:
+  - condition: state
+    entity_id: device_tracker.iphonerc
+    state: home
+  action:
+  - data:
+      entity_id: light.chair
+    service: light.turn_on
+  - data:
+      entity_id: switch.fireplace_basic_relay
+    service: light.turn_on
+- id: '1536888146095'
+  alias: Garage Light beep
+  trigger:
+  - entity_id: light.1862ce
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - service: script.alexa_beep
+# - id: '1536888840823'
+#   alias: motion turn on Office Light
+#   trigger:
+#   - entity_id: binary_sensor.garage_motion
+#     from: 'off'
+#     platform: state
+#     to: 'on'
+#   condition: []
+#   action:
+#   - data:
+#       entity_id: light.316993
+#     service: light.turn_on
+#   - delay: '00:02:30'
+#   - data:
+#       entity_id: light.316993
+#     service: light.turn_off
+
+#- id: '1536888840826'
+# - alias: A delay motion turn on Office Light
+#   trigger:
+#   - entity_id: binary_sensor.garage_motion
+#     from: 'off'
+#     platform: state
+#     to: 'on'
+#   condition: []
+#   action:
+#   - data:
+#       entity_id: light.06f23e
+#     service: light.turn_on
+#   - delay: 
+#     seconds: 
+#       {{states.input_number.timer_delay_slider.state | int }}
+      
+#   - data:
+#       entity_id: light.06f23e
+#     service: light.turn_off
+
+
+- alias: "Office Light Brightness"
+  hide_entity: true
+  trigger:
+    platform: state
+    entity_id: input_number.office_light_brightness
+  action:
+  - service: light.turn_on
+    data_template:
+      entity_id: light.316993
+      brightness_pct: '{{ states.input_number.office_light_brightness.state }}'
+
+- alias: Office Slider Get
+  trigger:
+    platform: state
+    entity_id: light.316993
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.office_light_brightness
+      value: '{{ states.sensor.light_office_2_brightness.state }}'
+
+#automation:
+- alias: turn something off after x time after turning it on
+  trigger:
+    platform: state
+    entity_id: switch.something
+    to: 'on'
+  action:
+    - delay: '00:{{ states.input_number.minutes.state | int }}:{{ states.input_number.seconds.state | int }}'
+    - service: switch.turn_off
+      entity_id: light.316993
+
+# This automation script runs when a value is received via MQTT on retained topic: setTemperature
+# It sets the value slider on the GUI. This slides also had its own automation when the value is changed.
+#automation:
+- alias: Set temp slider
+  trigger:
+    platform: mqtt
+    topic: 'setTemperature'
+  action:
+    service: input_number.set_value
+    data_template:
+      entity_id: input_number.target_temp
+      value: "{{ trigger.payload }}"
+
+# This second automation script runs when the target temperature slider is moved.
+# It publishes its value to the same MQTT topic it is also subscribed to.
+- alias: Temp slider moved
+  trigger:
+    platform: state
+    entity_id: input_number.target_temp
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: 'setTemperature'
+      retain: true
+      payload: "{{ states('input_number.target_temp') | int }}"      
+ # automation: Brightness
+- alias: Bedroom Light - Custom
+  trigger:
+    platform: state
+    entity_id: input_select.scene_bedroom
+    to: CUSTOM
+  action:
+    - service: light.turn_on
+      # Again, note the use of 'data_template:' rather than the normal 'data:' if you weren't using an input variable.
+      data_template:
+        entity_id: light.bedroom
+        brightness: "{{ states('input_number.bedroom_brightness') | int }}"
+        
