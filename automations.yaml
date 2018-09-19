@@ -24,12 +24,12 @@
       mplayer: family_room_2
   id: 6310daf6cb5d43769eef6cdb60decc64
 - id: '1530804968789'
-  alias: Kim Leave Work
+  alias: Kim Arrive Work
   trigger:
-  - entity_id: device_tracker.kimiphone
-    from: Kim Work
+  - entity_id: device_tracker.google_maps_106953152375077209383
+    from: away
     platform: state
-    to: away
+    to: Kim Work
   condition: []
   action:
   - data:
@@ -48,6 +48,8 @@
       entity_id: media_player.mpd
       message: Hello Kim left work!
     service: tts.google_say
+  - data: {}
+    service: script.alexa_notify_test
 - id: '1530844707823'
   alias: FR Motion
   trigger:
@@ -223,45 +225,7 @@
   condition: []
   action:
   - service: script.alexa_beep
-# - id: '1536888840823'
-#   alias: motion turn on Office Light
-#   trigger:
-#   - entity_id: binary_sensor.garage_motion
-#     from: 'off'
-#     platform: state
-#     to: 'on'
-#   condition: []
-#   action:
-#   - data:
-#       entity_id: light.316993
-#     service: light.turn_on
-#   - delay: '00:02:30'
-#   - data:
-#       entity_id: light.316993
-#     service: light.turn_off
-
-#- id: '1536888840826'
-# - alias: A delay motion turn on Office Light
-#   trigger:
-#   - entity_id: binary_sensor.garage_motion
-#     from: 'off'
-#     platform: state
-#     to: 'on'
-#   condition: []
-#   action:
-#   - data:
-#       entity_id: light.06f23e
-#     service: light.turn_on
-#   - delay: 
-#     seconds: 
-#       {{states.input_number.timer_delay_slider.state | int }}
-      
-#   - data:
-#       entity_id: light.06f23e
-#     service: light.turn_off
-
-
-- alias: "Office Light Brightness"
+- alias: Office Light Brightness
   hide_entity: true
   trigger:
     platform: state
@@ -271,7 +235,7 @@
     data_template:
       entity_id: light.316993
       brightness_pct: '{{ states.input_number.office_light_brightness.state }}'
-
+  id: a15625ce95364eebbc9a3878b9d6bcea
 - alias: Office Slider Get
   trigger:
     platform: state
@@ -281,33 +245,28 @@
     data_template:
       entity_id: input_number.office_light_brightness
       value: '{{ states.sensor.light_office_2_brightness.state }}'
-
-#automation:
+  id: 117dd8f7793a4713b3aa5fd70633743c
 - alias: turn something off after x time after turning it on
   trigger:
     platform: state
     entity_id: switch.something
     to: 'on'
   action:
-    - delay: '00:{{ states.input_number.minutes.state | int }}:{{ states.input_number.seconds.state | int }}'
-    - service: switch.turn_off
-      entity_id: light.316993
-
-# This automation script runs when a value is received via MQTT on retained topic: setTemperature
-# It sets the value slider on the GUI. This slides also had its own automation when the value is changed.
-#automation:
+  - delay: 00:{{ states.input_number.minutes.state | int }}:{{ states.input_number.seconds.state
+      | int }}
+  - service: switch.turn_off
+    entity_id: light.316993
+  id: 964c5fdeaf14429fba772b39f66440d5
 - alias: Set temp slider
   trigger:
     platform: mqtt
-    topic: 'setTemperature'
+    topic: setTemperature
   action:
     service: input_number.set_value
     data_template:
       entity_id: input_number.target_temp
-      value: "{{ trigger.payload }}"
-
-# This second automation script runs when the target temperature slider is moved.
-# It publishes its value to the same MQTT topic it is also subscribed to.
+      value: '{{ trigger.payload }}'
+  id: 43832f7b4afc46e6a6174bb3d7264e3f
 - alias: Temp slider moved
   trigger:
     platform: state
@@ -315,19 +274,45 @@
   action:
     service: mqtt.publish
     data_template:
-      topic: 'setTemperature'
+      topic: setTemperature
       retain: true
-      payload: "{{ states('input_number.target_temp') | int }}"      
- # automation: Brightness
-- alias: Bedroom Light - Custom
+      payload: '{{ states(''input_number.target_temp'') | int }}'
+  id: 2e3b57a1592f4b24a83d77cc941a96ad
+- alias: Office Light - Custom
   trigger:
     platform: state
-    entity_id: input_select.scene_bedroom
+    entity_id: input_select.scene_office
     to: CUSTOM
   action:
-    - service: light.turn_on
-      # Again, note the use of 'data_template:' rather than the normal 'data:' if you weren't using an input variable.
-      data_template:
-        entity_id: light.bedroom
-        brightness: "{{ states('input_number.bedroom_brightness') | int }}"
-        
+  - service: light.turn_on
+    data_template:
+      entity_id: light.316993
+      brightness: '{{ states(''input_number.office_brightness'') | int }}'
+  id: ab118a259fc84c34b8a42d1c253a0f65
+- id: '1537322992199'
+  alias: Randy Arrived Home
+  trigger:
+  - entity_id: device_tracker.google_maps_114193578345566022352
+    from: Away
+    platform: state
+    to: Home
+  condition: []
+  action:
+  - data:
+      payload: 'on'
+      topic: state/randy/home
+    service: mqtt.publish
+  - condition: state
+    entity_id: input_boolean.notify_home
+    state: 'On'
+  - service: alarm_control_panel.alarm_disarm
+- id: '1537323756908'
+  alias: Kim Leave Work
+  trigger:
+  - entity_id: device_tracker.google_maps_106953152375077209383
+    from: Kim Work
+    platform: state
+    to: Away
+  condition: []
+  action:
+  - service: script.alexa_beep

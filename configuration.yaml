@@ -1,5 +1,5 @@
 homeassistant:
-  # v 1.3
+  # v 1.4
   # New fresh install hassos on 32 gb card Started 9/12/18
   # Name of the location where Home Assistant is running
   name: Hassio Pi New
@@ -75,10 +75,6 @@ sun:
 # Cloud
 cloud:
 ios:
-nest:
-  client_id: 42707d37-d11a-4aac-891e-4bbcfe9d1ee5
-  client_secret: F1rrB6qG4TvGecApE6b8Mb307
-
 camera:
   - platform: canary
   # Webcams
@@ -125,7 +121,7 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 sensor: !include sensors.yaml
-
+remote: !include remote.yaml
 panel_iframe:
   configurator:
     title: Configurator
@@ -151,15 +147,70 @@ insteon:
     #    cat:  0x10
     #    subcat: 0x0A
     #    firmware: 41  
+device_sun_light_trigger:
+  light_group: group.led
+  #light_profile: relax
+  #device_group: group.my_devices
+  #disable_turn_off: 1
+proximity:
+  home:
+    ignored_zones:
+      - twork
+      - elschool
+    devices:
+      - device_tracker.google_maps_106953152375077209383
+      - device_tracker.google_maps_114193578345566022352
+      - device_tracker.iphonerc
+    tolerance: 50
+    unit_of_measurement: mi
+  
+  alex_home:
+    devices:
+      - device_tracker.google_maps_106953152375077209383
+      - device_tracker.google_maps_114193578345566022352
+      - device_tracker.iphonerc
+    tolerance: 50
+    unit_of_measurement: mi
+  
+  columbus:
+    devices:
+      - device_tracker.google_maps_106953152375077209383
+      - device_tracker.google_maps_114193578345566022352
+      - device_tracker.iphonerc
+    tolerance: 50
+    unit_of_measurement: mi
+  kim_work:
+    devices:
+      - device_tracker.google_maps_106953152375077209383
+    tolerance: 30
+    unit_of_measurement: mi
+
 input_boolean:
-  notify_home:
-    name: Notify when someone arrives home
+  notify_home_rc:
+    name: Home Randy
+    initial: off
+    icon: mdi:car
+  notify_home_kim:
+    name: Home Kim
+    initial: off
+    icon: mdi:car
+  notify_home_empty:
+    name: Home Empty
     initial: off
     icon: mdi:car
   alarm_off:
-    name: Alarm Turn Off
-    initial: on
+    name: Alarm Armed Away
+    initial: off
     icon: mdi:alarm
+  alarm_night:
+    name: Alarm Armed Night
+    initial: off
+    icon: mdi:alarm
+  alarm_triggered:
+    name: Alarm Triggered
+    initial: off
+    icon: mdi:alarm
+
 
 # Example configuration.yaml entry using 'input_number' in an action in an automation
 input_select:
@@ -178,11 +229,11 @@ input_select:
 
 input_number:
 
-  bedroom_brightness:
-    name: Brightness
-    initial: 254
+  office_brightness:
+    name: Brightness Office
+    initial: 100
     min: 0
-    max: 254
+    max: 100
     step: 1
 
 # Example configuration.yaml entry using 'input_number' in an action in an automation
@@ -271,13 +322,13 @@ device_tracker:
     username: rclusthassio@gmail.com
     password: Rc514131!
   - platform: unifi_direct
-    host: 192.168.1.2
-    username: rc
-    password: Rc514131!
-  - platform: unifi
-    host: 192.168.1.50
+    host: 192.168.1.1
     username: rc
     password: rc
+  - platform: unifi
+    host: unifi
+    username: rc
+    password: Rc514131!
     ssid_filter:
       - 'Lust'
       - 'ASUS_2G'

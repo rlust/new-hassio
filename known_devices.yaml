@@ -222,3 +222,19 @@ iphonerc:
   name: iPhonerc
   picture:
   track: true
+
+google_maps_114193578345566022352:
+  hide_if_away: false
+  icon:
+  mac:
+  name: google maps 114193578345566022352
+  picture: https://lh4.googleusercontent.com/-FzvtJU_MqG4/AAAAAAAAAAI/AAAAAAAAEGU/BDxYehkkEzU/photo.jpg
+  track: true
+
+google_maps_106953152375077209383:
+  hide_if_away: false
+  icon:
+  mac:
+  name: google maps 106953152375077209383
+  picture: https://lh6.googleusercontent.com/-kjAq7dvL1EY/AAAAAAAAAAI/AAAAAAAAAAA/APUIFaNtyDw7L213uQXdCO9Ayb6mtoQoDQ/mo/photo.jpg
+  track: true

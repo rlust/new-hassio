@@ -21,7 +21,22 @@ temperature:
     - sensor.attic_hum
     - sensor.hot_water_pipe
     - sensor.duct_temp
-
+nest:
+    name: Nest Thermostat
+    view: no
+    entities:
+      - binary_sensor.family_room_thermostat_fan
+      - binary_sensor.family_room_thermostat_has_leaf
+      - binary_sensor.family_room_thermostat_is_locked
+      - binary_sensor.family_room_thermostat_online
+      - binary_sensor.family_room_thermostat_is_using_emergency_heat
+      - climate.family_room
+      - sensor.family_room_thermostat_humidity
+      - sensor.family_room_thermostat_target
+      - sensor.family_room_thermostat_temperature
+      - sensor.family_room_thermostat_hvac_state
+      - sensor.family_room_thermostat_operation_mode
+      - sensor.away_mode
     
 
 rooms:
@@ -31,7 +46,18 @@ rooms:
   entities: 
     - group.master
     - group.garage
+    - group.familyroom
 
+familyroom:
+       name: Family Room
+       entities:
+         - switch.chair
+         - switch.foyer
+         - climate.family_room
+         - light.3df6f3
+         - light.led2
+         - light.037577  
+ #        - light.186156	
 
 doors:
   name: Doors Entry
@@ -127,12 +153,22 @@ garage:
     - sensor.garage_humidity_2
     - binary_sensor.garage_motion
 
+proximity:
+  name: Proximity Devices
+  entities:
+    - proximity.alex_home
+    - proximity.columbus
+    - proximity.kim_work
+    - proximity.home
+
 trackdevs:
   name: Track Devices
   entities:
+    - group.proximity
     - device_tracker.fireplace
     - device_tracker.09aa01ac381700qv
     - device_tracker.183425999
+    - device_tracker.iPhonerc
 track:
   name: Track
   view: yes
@@ -209,3 +245,28 @@ environment_view:
     - group.temp_sensors
     - group.nest
     - group.weather_card_forecast
+
+automation_view:
+    view: yes
+    name: Automation
+    icon: mdi:home-automation
+    entities:
+      - group.all_automations
+      - group.all_scripts
+      #- group.all_switches
+      # - group.alarm_clock
+      # - group.DS213+
+      # - group.Hassbian
+video_media:
+    name: Media Devices
+    view: yes
+    entities:
+      # - media_player.osmc
+      # - media_player.randys_fire_tv
+      # - media.player.frreceiver
+      # - media.player.bathroom
+      # - media.player.all
+      # - media_player.kitchen_deck
+      # - media_player.kitchen
+      # - media_player.home_theater
+        

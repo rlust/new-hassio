@@ -1,14 +1,25 @@
+group.all_automations:
+  hidden: false
+group.all_scripts:
+  hidden: false
+group.all_devicess:
+  hidden: false
 group.all_lights:
   hidden: false
 group.all_switches:
+  hidden: false
+group.all_covers:
+  hidden: false 
+group.all_remotes:
   hidden: false
 group.master:
   icon: mdi:hotel
 switch.01dbdc:
   friendly_name: Garage Door Opener
+  device_class: opening
   icon: mdi:garage
 light.035b23:
-  friendly_name: Kim Bedroom
+  friendly_name: Master Bedroom
   supported_features: 1
 light.035b60:
   friendly_name: Master Tub

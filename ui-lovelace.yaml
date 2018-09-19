@@ -7,9 +7,39 @@ views:
   - title: Home
     cards:
       - type: picture-entity
+        title: Family Room
+        entity: camera.family_room
+        camera_image: camera.family_room
+        show_info: true
+        tap_action: dialog
+      - type: picture-entity
+        title: Garage
+        entity: camera.garage
+        camera_image: camera.garage
+        show_info: true
+        tap_action: dialog
+      - type: picture-entity
+        title: Deck
+        entity: camera.deck
+        camera_image: camera.deck
+        show_info: true
+        tap_action: dialog
+      - type: picture-entity
+        title: Front
+        entity: camera.front
+        camera_image: camera.front
+        show_info: true
+        tap_action: dialog
+      - type: picture-entity
         title: RC Home
         entity: camera.rc_home
         camera_image: camera.rc_home
+        show_info: true
+        tap_action: dialog
+      - type: picture-entity
+        title: RC Home
+        entity: camera.rc_home_2
+        camera_image: camera.rc_home_2
         show_info: true
         tap_action: dialog
       - type: entities
@@ -28,6 +58,28 @@ views:
           - sensor.attic_hum
           - sensor.hot_water_pipe
           - sensor.duct_temp
+      - type: entities
+        title: Nest Thermostat
+        show_header_toggle: true
+        entities:
+          - binary_sensor.family_room_thermostat_fan
+          - binary_sensor.family_room_thermostat_has_leaf
+          - binary_sensor.family_room_thermostat_is_locked
+          - binary_sensor.family_room_thermostat_online
+          - binary_sensor.family_room_thermostat_is_using_emergency_heat
+          - climate.family_room
+          - sensor.family_room_thermostat_humidity
+          - sensor.family_room_thermostat_target
+          - sensor.family_room_thermostat_temperature
+          - sensor.family_room_thermostat_hvac_state
+          - sensor.family_room_thermostat_operation_mode
+      - type: entities
+        title: Family Room
+        show_header_toggle: true
+        entities:
+          - climate.family_room
+          - light.3df6f3
+          - light.037577
       - type: entities
         title: Doors
         show_header_toggle: true
@@ -85,6 +137,13 @@ views:
           - binary_sensor.side_garage_
           - binary_sensor.garage_motion
       - type: entities
+        title: Track Devices
+        show_header_toggle: true
+        entities:
+          - device_tracker.google_maps_106953152375077209383
+          - device_tracker.google_maps_114193578345566022352
+          - device_tracker.iPhonerc
+      - type: entities
         title: Cars
         show_header_toggle: true
         entities:
@@ -119,29 +178,80 @@ views:
           - sensor.forecast_6
           - sensor.forecast_7
       - type: entities
-        title: all switches
+        title: all covers
         show_header_toggle: true
         entities:
-          - switch.01dbdc
-          - switch.057d2a_3
-          - switch.057d2a_4
-          - switch.057d2a_5
-          - switch.057d2a_6
-          - switch.057d2a_7
-          - switch.16f884
-          - switch.alarm_mcu_restart
-          - switch.fireplace_basic_relay
-          - switch.garage_motion_restart
-          - switch.garage_restart
-          - switch.shed_esphome_restart
-          - switch.side_garage_restart
-          - switch.sonoff_3
-          - switch.sonoff_3_2
-          - switch.big
-          - switch.led5
-          - switch.led6
-          - switch.oled
-          - switch.small
+          - cover.big_gd
+          - cover.small_gd
+      - type: entities
+        title: all automations
+        show_header_toggle: true
+        entities:
+          - automation.alex_fr_speak_side_garage_is_open
+          - automation.alexa_fr_say_weather_updated
+          - automation.alexa_test
+          - automation.fr_motion
+          - automation.garage_light_beep
+          - automation.garage_small_open_bmw_switch
+          - automation.garage_state_notification
+          - automation.kim_leave_work
+          - automation.lights_fr_at_sundown
+          - automation.office_light__custom
+          - automation.office_light_brightness
+          - automation.office_slider_get
+          - automation.porsche_voltabe_low
+          - automation.power_state_on_ha_startup
+          - automation.set_temp_slider
+          - automation.temp_slider_moved
+          - automation.temperature_report_by_alexa
+          - automation.water_is_hot_notify_alexa
+          - automation.weather_report_by_alexa
+          - automation.turn_something_off_after_x_time_after_turning_it_on
+      - type: entities
+        title: all scripts
+        show_header_toggle: true
+        entities:
+          - script.alexa_alarm
+          - script.alexa_beep
+          - script.front_door_camera
+          - script.alexa_notify_test
+          - script.alexa_notify
+          - script.audio_notify
+          - script.audio_notify_cars
+          - script.audio_notify_water
+          - script.audio_notify_weeather
+      - type: entities
+        title: all devices
+        show_header_toggle: true
+        entities:
+          - device_tracker.09aa01ac381700qv
+          - device_tracker.amazon273b1ffcd
+          - device_tracker.8c2daa358561
+          - device_tracker.randysmbp
+          - device_tracker.18fe34d4c2b6
+          - device_tracker.sonoff_3
+          - device_tracker.7c70bc550662
+          - device_tracker.led2
+          - device_tracker.hfa11
+          - device_tracker.led6
+          - device_tracker.fireplace
+          - device_tracker.e8abfa10ff05
+          - device_tracker.rfbridge4688
+          - device_tracker.183425999
+          - device_tracker.esp_805ad6
+          - device_tracker.shed
+          - device_tracker.5ccf7fc6dff5
+          - device_tracker.esp_94f476
+          - device_tracker.heat15
+          - device_tracker.esp_954d42
+          - device_tracker.5ccf7fa79e02
+          - device_tracker.foyer1907
+          - device_tracker.600194172edc
+          - device_tracker.e8abfa4decfc
+          - device_tracker.harmonyhub
+          - device_tracker.esp_0caad0
+          - device_tracker.esp_0cae44
+          - device_tracker.iphonerc
       - type: entities
         title: all lights
         show_header_toggle: true
@@ -166,75 +276,60 @@ views:
           - light.led3
           - light.tvled
           - light.chair
-          - light.chandelier
           - light.deck
-      - type: entities
-        title: all automations
-        show_header_toggle: true
-        entities:
-          - automation.alex_fr_speak_side_garage_is_open
-          - automation.alexa_fr_say_weather_updated
-          - automation.alexa_test
-          - automation.fr_motion
-          - automation.garage_small_open_bmw_switch
-          - automation.garage_state_notification
-          - automation.kim_leave_work
-          - automation.lights_fr_at_sundown
-          - automation.porsche_voltabe_low
-          - automation.power_state_on_ha_startup
-          - automation.temperature_report_by_alexa
-          - automation.water_is_hot_notify_alexa
-          - automation.weather_report_by_alexa
-      - type: entities
-        title: all scripts
-        show_header_toggle: true
-        entities:
-          - script.alexa_alarm
-          - script.alexa_beep
-          - script.front_door_camera
-          - script.alexa_notify_test
-          - script.alexa_notify
-          - script.audio_notify
-          - script.audio_notify_cars
-          - script.audio_notify_water
-          - script.audio_notify_weeather
-      - type: entities
-        title: all covers
-        show_header_toggle: true
-        entities:
-          - cover.big_gd
-          - cover.small_gd
       - type: entities
         title: all remotes
         show_header_toggle: true
         entities:
           - remote.home_theater
-      - type: media-control
-        entity: media_player.randys_fire_tv
-      - type: media-control
-        entity: media_player.kim_fire_tv_stick
-      - type: media-control
-        entity: media_player.kitchen_deck
-      - type: media-control
-        entity: media_player.this_device
-      - type: media-control
-        entity: media_player.randys_alexa_apps
-      - type: media-control
-        entity: media_player.bathroom
-      - type: media-control
-        entity: media_player.kitchen
-      - type: media-control
-        entity: media_player.all
+      - type: entities
+        title: all switches
+        show_header_toggle: true
+        entities:
+          - switch.01dbdc
+          - switch.057d2a_3
+          - switch.057d2a_4
+          - switch.057d2a_5
+          - switch.057d2a_6
+          - switch.057d2a_7
+          - switch.16f884
+          - switch.alarm_mcu_restart
+          - switch.fireplace_basic_relay
+          - switch.garage_motion_restart
+          - switch.garage_restart
+          - switch.shed_esphome_restart
+          - switch.side_garage_restart
+          - switch.sonoff_3
+          - switch.sonoff_3_2
+          - switch.big
+          - switch.led5
+          - switch.led6
+          - switch.led6_2
+          - switch.small
       - type: media-control
         entity: media_player.osmc
-      - type: media-control
-        entity: media_player.mpd
       - type: media-control
         entity: media_player.fr_tv
       - type: media-control
         entity: media_player.frreceiver
       - type: media-control
-        entity: media_player.viera_st60
+        entity: media_player.mpd
+      - type: media-control
+        entity: media_player.randys_fire_tv
+      - type: media-control
+        entity: media_player.all
+      - type: media-control
+        entity: media_player.kim_fire_tv_stick
+      - type: media-control
+        entity: media_player.randys_alexa_apps
+      - type: media-control
+        entity: media_player.bathroom
+      - type: media-control
+        entity: media_player.this_device
+      - type: media-control
+        entity: media_player.kitchen_deck
+      - type: media-control
+        entity: media_player.kitchen
       - type: media-control
         entity: media_player.home_theater
       - type: media-control
@@ -276,6 +371,13 @@ views:
           - binary_sensor.side_garage_door_status
           - binary_sensor.side_garage_
           - binary_sensor.garage_motion
+      - type: entities
+        title: Family Room
+        show_header_toggle: true
+        entities:
+          - climate.family_room
+          - light.3df6f3
+          - light.037577
   - title: Doors Entry
     icon: mdi:door-open
     cards:
@@ -350,7 +452,6 @@ views:
           - light.led3
           - light.tvled
           - light.chair
-          - light.chandelier
           - light.deck
       - type: entities
         title: all switches
@@ -374,8 +475,49 @@ views:
           - switch.big
           - switch.led5
           - switch.led6
-          - switch.oled
+          - switch.led6_2
           - switch.small
+  - title: Track
+    cards:
+      - type: entities
+        title: all devices
+        show_header_toggle: true
+        entities:
+          - device_tracker.09aa01ac381700qv
+          - device_tracker.amazon273b1ffcd
+          - device_tracker.8c2daa358561
+          - device_tracker.randysmbp
+          - device_tracker.18fe34d4c2b6
+          - device_tracker.sonoff_3
+          - device_tracker.7c70bc550662
+          - device_tracker.led2
+          - device_tracker.hfa11
+          - device_tracker.led6
+          - device_tracker.fireplace
+          - device_tracker.e8abfa10ff05
+          - device_tracker.rfbridge4688
+          - device_tracker.183425999
+          - device_tracker.esp_805ad6
+          - device_tracker.shed
+          - device_tracker.5ccf7fc6dff5
+          - device_tracker.esp_94f476
+          - device_tracker.heat15
+          - device_tracker.esp_954d42
+          - device_tracker.5ccf7fa79e02
+          - device_tracker.foyer1907
+          - device_tracker.600194172edc
+          - device_tracker.e8abfa4decfc
+          - device_tracker.harmonyhub
+          - device_tracker.esp_0caad0
+          - device_tracker.esp_0cae44
+          - device_tracker.iphonerc
+      - type: entities
+        title: Track Devices
+        show_header_toggle: true
+        entities:
+          - device_tracker.google_maps_106953152375077209383
+          - device_tracker.google_maps_114193578345566022352
+          - device_tracker.iPhonerc
   - title: Autos
     icon: mdi:car
     cards:
@@ -417,6 +559,24 @@ views:
     icon: mdi:thermometer
     cards:
       - type: entities
+        entities:
+          - climate.family_room
+      - type: entities
+        title: Nest Thermostat
+        show_header_toggle: true
+        entities:
+          - binary_sensor.family_room_thermostat_fan
+          - binary_sensor.family_room_thermostat_has_leaf
+          - binary_sensor.family_room_thermostat_is_locked
+          - binary_sensor.family_room_thermostat_online
+          - binary_sensor.family_room_thermostat_is_using_emergency_heat
+          - climate.family_room
+          - sensor.family_room_thermostat_humidity
+          - sensor.family_room_thermostat_target
+          - sensor.family_room_thermostat_temperature
+          - sensor.family_room_thermostat_hvac_state
+          - sensor.family_room_thermostat_operation_mode
+      - type: entities
         title: Forecast
         show_header_toggle: true
         entities:
@@ -428,3 +588,64 @@ views:
           - sensor.forecast_5
           - sensor.forecast_6
           - sensor.forecast_7
+  - title: Automation
+    icon: mdi:home-automation
+    cards:
+      - type: entities
+        title: all automations
+        show_header_toggle: true
+        entities:
+          - automation.alex_fr_speak_side_garage_is_open
+          - automation.alexa_fr_say_weather_updated
+          - automation.alexa_test
+          - automation.fr_motion
+          - automation.garage_light_beep
+          - automation.garage_small_open_bmw_switch
+          - automation.garage_state_notification
+          - automation.kim_leave_work
+          - automation.lights_fr_at_sundown
+          - automation.office_light__custom
+          - automation.office_light_brightness
+          - automation.office_slider_get
+          - automation.porsche_voltabe_low
+          - automation.power_state_on_ha_startup
+          - automation.set_temp_slider
+          - automation.temp_slider_moved
+          - automation.temperature_report_by_alexa
+          - automation.water_is_hot_notify_alexa
+          - automation.weather_report_by_alexa
+          - automation.turn_something_off_after_x_time_after_turning_it_on
+      - type: entities
+        title: all scripts
+        show_header_toggle: true
+        entities:
+          - script.alexa_alarm
+          - script.alexa_beep
+          - script.front_door_camera
+          - script.alexa_notify_test
+          - script.alexa_notify
+          - script.audio_notify
+          - script.audio_notify_cars
+          - script.audio_notify_water
+          - script.audio_notify_weeather
+  - title: Media
+    icon: mdi:theater
+    id: Media
+    cards:
+      - type: media-control
+        entity: media_player.bathroom
+      - type: media-control
+        entity: media_player.kitchen_deck
+      - type: media-control
+        entity: media_player.kitchen
+      - type: media-control
+        entity: media_player.randys_fire_tv
+      - type: media-control
+        entity: media_player.frreceiver
+      - type: media-control
+        entity: media_player.osmc
+      - type: media-control
+        entity: media_player.home_theater
+      - type: media-control
+        entity: media_player.kim_fire_tv_stick
+  
